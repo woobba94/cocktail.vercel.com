@@ -1,7 +1,27 @@
+import Link from 'next/link';
 import { Cocktail } from 'src/types/Cocktail';
 
-const Item = (value: any) => {
-  return <div>{value.value.strDrink}</div>;
+interface CocktailProps {
+  cocktailData: Cocktail;
+}
+
+const Item = ({ cocktailData }: CocktailProps) => {
+  console.log(cocktailData?.idDrink);
+
+  return (
+    <Link href={`/detail?${cocktailData?.idDrink}`}>
+      <div>
+        <div>{cocktailData?.idDrink}</div>
+        <div>{cocktailData?.strDrink}</div>
+        <img src={cocktailData?.strDrinkThumb}></img>
+      </div>
+    </Link>
+    // <>
+    //   <div>{cocktailData?.idDrink}</div>
+    //   <div>{cocktailData?.strDrink}</div>
+    //   <img src={cocktailData?.strDrinkThumb}></img>
+    // </>
+  );
 };
 
 export default Item;
