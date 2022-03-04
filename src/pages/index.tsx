@@ -1,16 +1,23 @@
 import type { NextPage } from 'next';
+import { useRef, useState } from 'react';
 import ResultBox from 'src/components/ResultBox';
 import SearchBar from 'src/components/SearchBar';
 import { useData } from 'src/hooks/useData';
 
 const Home: NextPage = () => {
-  const { data, error } = useData('list.php?i=list');
+  const [ingredient, setIngredient] = useState('');
+  const setValue = (value: string) => {
+    setIngredient(value);
+  };
+
+  const { data, error } = useData(`filter.php?i=${ingredient}`);
+  if (data) console.log(Object.values(data)[0]);
 
   return (
     <>
-      <SearchBar />
+      <SearchBar setValue={setValue} />
       <div>INDEX</div>
-      <ResultBox name={data?.drinks[0].strIngredient1} />
+      {data ? <ResultBox data={Object.values(data)[0]} /> : <></>}
     </>
   );
 };
