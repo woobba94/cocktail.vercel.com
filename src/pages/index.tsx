@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Item from 'src/components/Item';
 import SearchBar from 'src/components/SearchBar';
 import { useData } from 'src/hooks/useData';
+import { Cocktail } from 'src/types/Cocktail';
 
 const Home: NextPage = () => {
   const [ingredient, setIngredient] = useState('');
@@ -10,7 +11,8 @@ const Home: NextPage = () => {
     setIngredient(value);
   };
 
-  const { data, error } = useData(`filter.php?i=${ingredient}`);
+  const { data, error } = useData(`filter.php?i=${ingredient}`, '');
+  console.log(data);
 
   // if (error) return <div>error</div>;
   // if (!data) return <div>loading</div>;
@@ -18,11 +20,16 @@ const Home: NextPage = () => {
   return (
     <>
       <SearchBar setValue={setValue} />
-      <div>INDEX</div>
+      <h1>홈</h1>
       {data ? (
         <div>
-          {Object.entries(data.drinks).map((it) => {
-            return <Item key={it[0]} value={it[1]} />;
+          {Object.values(data.drinks).map((cocktailData: Cocktail) => {
+            return (
+              <Item
+                key={`${cocktailData.idDrink}`}
+                cocktailData={cocktailData}
+              />
+            );
           })}
         </div>
       ) : (
