@@ -1,16 +1,20 @@
 import Item from './Item';
+import { useRef } from 'react';
+import { Cocktail } from '../types/Cocktail';
 
-interface ResultBoxProps {
-  name: string;
-}
+const ResultBox = (data: []) => {
+  console.log(data);
+  if (data) {
+    const myData = useRef({});
+    myData.current = data;
+    console.log(myData.current);
+  }
 
-const ResultBox = ({ name }: ResultBoxProps) => {
   return (
     <div>
-      {name}
-      <Item />
-      <Item />
-      <Item />
+      {data.map((contailData: Cocktail) => {
+        return <Item key={`sdsd`} />;
+      })}
     </div>
   );
 };
