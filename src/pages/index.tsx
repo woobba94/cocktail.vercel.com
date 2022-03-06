@@ -1,91 +1,49 @@
 import type { NextPage } from 'next';
+import ResultBox from 'src/components/ResultBox';
 import { useEffect, useRef, useState } from 'react';
 import Item from 'src/components/Item';
 import SearchBar from 'src/components/SearchBar';
+import TagList from 'src/components/TagList';
 import { useData } from 'src/hooks/useData';
-import { Cocktail } from 'src/types/Cocktail';
 
 const Home: NextPage = () => {
-  // const [selectedItems, setSelectedItems] = useState<string[] | []>([
+  const [selected, setSelected] = useState<string>('');
+  const [selectedList, setSelectedList] = useState<any>([]);
+  // const dataList = useRef<any>([]);
+  const [result, setResult] = useState<string[]>([]);
+
+  // const beforeItem = useRef<any>();
+
+  // const { data: item, error: itemError } = useData(
+  //   `filter.php?i=${selected}`,
   //   '',
-  //   '',
-  //   '',
-  // ]);
-  const selectedItems = useRef<any>(['', '', '']);
-  const itemList = useRef<any>([]);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  // );
 
-  selectedItems.current[1] = 'lemon';
-
-  useEffect(() => {
-    console.log(selectedItems.current);
-
-    // itemList.current = [];
-  }, [isSubmitted]);
-  // for (let i = 0; i < tagLength.current; i++) {
-  //   console.log(i);
-  //   const { data: item, error: itemsError } = useData(
-  //     `filter.php?i=${selectedItems[i]}`,
-  //     '',
-  //   );
-  //   console.log(item);
-  // }
-  if (selectedItems.current[0] !== '') {
-    console.log(selectedItems.current[0]);
-
-    const { data: item, error: itemsError } = useData(
-      `filter.php?i=${selectedItems.current[0]}`,
-      '',
-    );
-    // itemList.current.push(item);
-    // console.log(itemList.current);
-  }
-
-  // if (selectedItems[1] !== '') {
-  //   const { data: item1, error: itemsError1 } = useData(
-  //     `filter.php?i=${selectedItems[1]}`,
-  //     '',
-  //   );
-  //   itemList.current.push(item1);
+  // if (item !== undefined && item !== '' && beforeItem.current !== item) {
+  //   result.push(item);
+  //   beforeItem.current = item;
+  //   console.log('푸시');
   // }
 
-  // if (selectedItems[2] !== '') {
-  //   const { data: item2, error: itemsError2 } = useData(
-  //     `filter.php?i=${selectedItems[2]}`,
-  //     '',
-  //   );
-  //   itemList.current.push(item2);
-  //   console.log(itemList.current);
-  // }
-  // // if (error) return <div>error</div>;
-  // // if (!data) return <div>loading</div>;
-  // // useEffect(() => {
-  // //   console.log(selectedItems);
-  // // }, [selectedItems]);
-
+  // console.log('뿌려줄 데이터 -> ');
+  // console.log(result);
+  const index = 0;
   return (
-    <>
-      <SearchBar
-        selectedItems={selectedItems.current}
-        // setSelectedItems={setSelectedItems}
-        setIsSubmitted={setIsSubmitted}
+    <div>
+      <SearchBar setSelected={setSelected} />
+      <TagList
+        selected={selected}
+        selectedList={selectedList}
+        setSelectedList={setSelectedList}
+      />
+      <ResultBox
+        index={index}
+        selectedList={selectedList}
+        result={result}
+        setResult={setResult}
       />
       <h1>홈</h1>
-      {itemList ? (
-        <div>
-          {/* {Object.values(items.drinks).map((cocktailData: Cocktail) => {
-            return (
-              <Item
-                key={`${cocktailData.idDrink}`}
-                cocktailData={cocktailData}
-              />
-            );
-          })} */}
-        </div>
-      ) : (
-        <div>Enter the ingredient</div>
-      )}
-    </>
+    </div>
   );
 };
 

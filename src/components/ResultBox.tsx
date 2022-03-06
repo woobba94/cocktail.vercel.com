@@ -7,16 +7,11 @@ interface ResultProps {
   index: number;
   setResult: (value: [] | string[]) => void;
   result: string[];
-  selectedItems: string[];
+  selectedList: string[];
 }
 
-const ResultBox = ({
-  index,
-  selectedItems,
-  setResult,
-  result,
-}: ResultProps) => {
-  const { data, error } = useData(`filter.php?i=${selectedItems[index]}`, '');
+const ResultBox = ({ index, selectedList, setResult, result }: ResultProps) => {
+  const { data, error } = useData(`filter.php?i=${selectedList[index]}`, '');
 
   useEffect(() => {
     if (data) {

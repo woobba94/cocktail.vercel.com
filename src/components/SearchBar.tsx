@@ -1,27 +1,26 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface Props {
-  // setSelectedItems: (value: [] | string[]) => void;
-  selectedItems: string[];
-  setIsSubmitted: (value: boolean) => void;
+  setSelected: (value: string) => void;
 }
 
-const SearchBar = ({ selectedItems, setIsSubmitted }: Props) => {
-  const [inputValue, setInputValue] = useState('');
-  const count = useRef(0);
+const SearchBar = ({ setSelected }: Props) => {
+  const [inputValue, setInputValue] = useState<string>('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    setIsSubmitted(false);
+  }, [isSubmitted]);
 
   const handleOnChange = (e: any) => {
     setInputValue(e.target.value);
   };
-  const handleOnClick = () => {
+  const handleOnAdd = () => {
     // 다중 재료 추가
-    if (inputValue !== '' && count.current < 3) {
-      const newArr: string[] = [...selectedItems];
-      newArr[count.current] = inputValue;
-      selectedItems = newArr;
-      // setSelectedItems(newArr);
-      count.current += 1;
-      console.log(selectedItems);
+    if (inputValue !== '') {
+      setSelected(inputValue);
+      // 추가했으면 입력창 비우기
+      setInputValue('');
     }
   };
 
@@ -32,8 +31,12 @@ const SearchBar = ({ selectedItems, setIsSubmitted }: Props) => {
 
   return (
     <div>
-      <input placeholder="재료 입력" onChange={handleOnChange} />
-      <button onClick={handleOnClick}>추가</button>
+      <input
+        placeholder="재료 입력"
+        onChange={handleOnChange}
+        value={inputValue}
+      />
+      <button onClick={handleOnAdd}>추가</button>
       <button onClick={handleOnSubmit}>제출</button>
     </div>
   );
