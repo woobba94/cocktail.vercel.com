@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
-import { useRef, useState } from 'react';
 import ResultBox from 'src/components/ResultBox';
+import { useEffect, useRef, useState } from 'react';
+import Item from 'src/components/Item';
 import SearchBar from 'src/components/SearchBar';
 import TagList from 'src/components/TagList';
 import { useData } from 'src/hooks/useData';
@@ -13,10 +14,10 @@ const Home: NextPage = () => {
 
   // const beforeItem = useRef<any>();
 
-  const { data: item, error: itemError } = useData(
-    `filter.php?i=${selected}`,
-    '',
-  );
+  // const { data: item, error: itemError } = useData(
+  //   `filter.php?i=${selected}`,
+  //   '',
+  // );
 
   // if (item !== undefined && item !== '' && beforeItem.current !== item) {
   //   result.push(item);
@@ -42,20 +43,6 @@ const Home: NextPage = () => {
         setResult={setResult}
       />
       <h1>홈</h1>
-      {/* {dataList ? (
-        <div>
-          {Object.values(items.drinks).map((cocktailData: Cocktail) => {
-            return (
-              <Item
-                key={`${cocktailData.idDrink}`}
-                cocktailData={cocktailData}
-              />
-            );
-          })}
-        </div>
-      ) : (
-        <div>Enter the ingredient</div>
-      )} */}
     </div>
   );
 };
