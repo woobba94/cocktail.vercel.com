@@ -1,29 +1,50 @@
 import type { NextPage } from 'next';
-import { useState } from 'react';
-import Item from 'src/components/Item';
+import { useRef, useState } from 'react';
+import ResultBox from 'src/components/ResultBox';
 import SearchBar from 'src/components/SearchBar';
+import TagList from 'src/components/TagList';
 import { useData } from 'src/hooks/useData';
-import { Cocktail } from 'src/types/Cocktail';
 
 const Home: NextPage = () => {
-  const [ingredient, setIngredient] = useState('');
-  const setValue = (value: string) => {
-    setIngredient(value);
-  };
+  const [selected, setSelected] = useState<string>('');
+  const [selectedList, setSelectedList] = useState<any>([]);
+  // const dataList = useRef<any>([]);
+  const [result, setResult] = useState<string[]>([]);
 
-  const { data, error } = useData(`filter.php?i=${ingredient}`, '');
-  console.log(data);
+  // const beforeItem = useRef<any>();
 
-  // if (error) return <div>error</div>;
-  // if (!data) return <div>loading</div>;
+  const { data: item, error: itemError } = useData(
+    `filter.php?i=${selected}`,
+    '',
+  );
 
+  // if (item !== undefined && item !== '' && beforeItem.current !== item) {
+  //   result.push(item);
+  //   beforeItem.current = item;
+  //   console.log('푸시');
+  // }
+
+  // console.log('뿌려줄 데이터 -> ');
+  // console.log(result);
+  const index = 0;
   return (
-    <>
-      <SearchBar setValue={setValue} />
+    <div>
+      <SearchBar setSelected={setSelected} />
+      <TagList
+        selected={selected}
+        selectedList={selectedList}
+        setSelectedList={setSelectedList}
+      />
+      <ResultBox
+        index={index}
+        selectedList={selectedList}
+        result={result}
+        setResult={setResult}
+      />
       <h1>홈</h1>
-      {data ? (
+      {/* {dataList ? (
         <div>
-          {Object.values(data.drinks).map((cocktailData: Cocktail) => {
+          {Object.values(items.drinks).map((cocktailData: Cocktail) => {
             return (
               <Item
                 key={`${cocktailData.idDrink}`}
@@ -34,8 +55,8 @@ const Home: NextPage = () => {
         </div>
       ) : (
         <div>Enter the ingredient</div>
-      )}
-    </>
+      )} */}
+    </div>
   );
 };
 
