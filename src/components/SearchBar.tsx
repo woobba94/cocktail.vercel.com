@@ -1,27 +1,36 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+import AutoComplete from './AutoComplete';
 
-interface Props {
-  setSelected: (value: string) => void;
+interface SearchBarProps {
+  selectedList: string[];
+  setSelectedList: (value: string[]) => void;
+  setIsSubmitted: (value: boolean) => void;
 }
 
-const SearchBar = ({ setSelected }: Props) => {
+const SearchBar = ({
+  selectedList,
+  setSelectedList,
+  setIsSubmitted,
+}: SearchBarProps) => {
   const [inputValue, setInputValue] = useState<string>('');
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
     setIsSubmitted(false);
-  }, [isSubmitted]);
+  }, [selectedList]);
 
   const handleOnChange = (e: any) => {
     setInputValue(e.target.value);
   };
   const handleOnAdd = () => {
     // 다중 재료 추가
-    if (inputValue !== '') {
-      setSelected(inputValue);
-      // 추가했으면 입력창 비우기
-      setInputValue('');
+    if (inputValue !== '' && selectedList.includes(inputValue) == false) {
+      const newArr = [...selectedList];
+      newArr.push(inputValue);
+      setSelectedList(newArr);
+      console.log(selectedList);
     }
+    // 추가했으면 입력창 비우기
+    setInputValue('');
   };
 
   const handleOnSubmit = () => {
@@ -36,6 +45,7 @@ const SearchBar = ({ setSelected }: Props) => {
         onChange={handleOnChange}
         value={inputValue}
       />
+      <AutoComplete inputValue={inputValue} />
       <button onClick={handleOnAdd}>추가</button>
       <button onClick={handleOnSubmit}>제출</button>
     </div>

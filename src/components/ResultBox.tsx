@@ -12,7 +12,6 @@ interface ResultProps {
 
 const ResultBox = ({ index, selectedList, setResult, result }: ResultProps) => {
   const { data, error } = useData(`filter.php?i=${selectedList[index]}`, '');
-
   useEffect(() => {
     if (data) {
       const newArr: string[] = [...result];
@@ -25,7 +24,7 @@ const ResultBox = ({ index, selectedList, setResult, result }: ResultProps) => {
     <div>
       {data ? (
         <div>
-          {Object.values(data.drinks).map((cocktailData: Cocktail) => {
+          {Object.values(data.drinks).map((cocktailData: any | Cocktail) => {
             return (
               <Item
                 key={`${cocktailData.idDrink}`}

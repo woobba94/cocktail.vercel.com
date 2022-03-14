@@ -7,10 +7,13 @@ import TagList from 'src/components/TagList';
 import { useData } from 'src/hooks/useData';
 
 const Home: NextPage = () => {
-  const [selected, setSelected] = useState<string>('');
   const [selectedList, setSelectedList] = useState<any>([]);
-  // const dataList = useRef<any>([]);
   const [result, setResult] = useState<string[]>([]);
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log(selectedList);
+  }, [selectedList]);
 
   // const beforeItem = useRef<any>();
 
@@ -25,23 +28,26 @@ const Home: NextPage = () => {
   //   console.log('푸시');
   // }
 
-  // console.log('뿌려줄 데이터 -> ');
-  // console.log(result);
   const index = 0;
   return (
     <div>
-      <SearchBar setSelected={setSelected} />
-      <TagList
-        selected={selected}
+      <SearchBar
         selectedList={selectedList}
         setSelectedList={setSelectedList}
+        setIsSubmitted={setIsSubmitted}
       />
-      <ResultBox
-        index={index}
-        selectedList={selectedList}
-        result={result}
-        setResult={setResult}
-      />
+      <TagList selectedList={selectedList} setSelectedList={setSelectedList} />
+      {isSubmitted ? (
+        <ResultBox
+          index={index}
+          selectedList={selectedList}
+          result={result}
+          setResult={setResult}
+        />
+      ) : (
+        <></>
+      )}
+
       <h1>홈</h1>
     </div>
   );
