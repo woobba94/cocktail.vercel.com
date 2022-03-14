@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import AutoComplete from './autocomplete';
+import AutoComplete from './AutoComplete';
 
 interface SearchBarProps {
   selectedList: string[];
