@@ -1,23 +1,11 @@
 import { useEffect, useState } from 'react';
 // import styled from '@emotion/styled';
 interface Props {
-  selected: string;
-  setSelectedList: (value: any) => void;
-  selectedList: any;
+  setSelectedList: (value: string[]) => void;
+  selectedList: string[];
 }
 
-const TagList = ({ selected, selectedList, setSelectedList }: Props) => {
-  // selected값이 들어올때 태그 하나 더 푸시
-  useEffect(() => {
-    // 새로운 값만 푸시
-    if (selectedList.includes(selected) == false && selected !== '') {
-      const newArr = [...selectedList];
-      newArr.push(selected);
-      setSelectedList(newArr);
-      console.log(selectedList);
-    }
-  }, [selected]);
-
+const TagList = ({ selectedList, setSelectedList }: Props) => {
   const handleOnRemove = (e: any) => {
     let targetIndex = 0;
     // 기본적으로 배열을 할당하는 것은 참조를 복사. React는 배열에 대한 참조가 변경되지 않기 때문에 그것을 변경으로 보지 않음.

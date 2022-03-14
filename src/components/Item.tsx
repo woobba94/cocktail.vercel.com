@@ -6,8 +6,6 @@ interface CocktailProps {
 }
 
 const Item = ({ cocktailData }: CocktailProps) => {
-  console.log(cocktailData?.idDrink);
-
   return (
     <Link href={`/detail?${cocktailData?.idDrink}`}>
       <div>
