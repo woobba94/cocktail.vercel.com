@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import AutoComplete from './autocomplete';
 
 interface SearchBarProps {
   selectedList: string[];
@@ -12,7 +13,6 @@ const SearchBar = ({
   setIsSubmitted,
 }: SearchBarProps) => {
   const [inputValue, setInputValue] = useState<string>('');
-  // const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   useEffect(() => {
     setIsSubmitted(false);
@@ -45,6 +45,7 @@ const SearchBar = ({
         onChange={handleOnChange}
         value={inputValue}
       />
+      <AutoComplete inputValue={inputValue} />
       <button onClick={handleOnAdd}>추가</button>
       <button onClick={handleOnSubmit}>제출</button>
     </div>
