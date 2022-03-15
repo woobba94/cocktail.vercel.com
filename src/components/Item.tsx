@@ -1,17 +1,24 @@
 import Link from 'next/link';
+import { useData } from 'src/hooks/useData';
 import { Cocktail } from 'src/types/Cocktail';
 
 interface CocktailProps {
-  cocktailData: Cocktail;
+  id: string;
 }
 
-const Item = ({ cocktailData }: CocktailProps) => {
+const Item = ({ id }: CocktailProps) => {
+  const pathname = `/lookup.php?i=${id}`;
+  const { data, error } = useData(`${pathname}`, '');
+  if (data) {
+    console.log(data.drinks[0].idDrink);
+  }
+
   return (
-    <Link href={`/detail?${cocktailData?.idDrink}`}>
+    <Link href={`/detail?${data?.drinks[0].idDrink}`}>
       <div>
-        <div>{cocktailData?.idDrink}</div>
-        <div>{cocktailData?.strDrink}</div>
-        <img src={cocktailData?.strDrinkThumb}></img>
+        <div>{data?.drinks[0].idDrink}</div>
+        <div>{data?.drinks[0].strDrink}</div>
+        <img src={data?.drinks[0].strDrinkThumb}></img>
       </div>
     </Link>
   );
