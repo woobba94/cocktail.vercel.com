@@ -14,11 +14,6 @@ const Item = ({ cocktailData }: CocktailProps) => {
         <img src={cocktailData?.strDrinkThumb}></img>
       </div>
     </Link>
-    // <>
-    //   <div>{cocktailData?.idDrink}</div>
-    //   <div>{cocktailData?.strDrink}</div>
-    //   <img src={cocktailData?.strDrinkThumb}></img>
-    // </>
   );
 };
 

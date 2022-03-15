@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useData } from 'src/hooks/useData';
 interface AutoCompleteProps {
   inputValue: string;
@@ -7,12 +7,6 @@ interface AutoCompleteProps {
 const AutoComplete = ({ inputValue }: AutoCompleteProps) => {
   const { data, error } = useData('list.php?i=list', '');
   const [ingredients, setIngredients] = useState<any>([]);
-
-  useEffect(() => {
-    ingredients?.map((ingredient: string) => {
-      console.log(ingredient);
-    });
-  }, [ingredients]);
 
   useEffect(() => {
     if (data) {

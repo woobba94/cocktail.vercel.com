@@ -22,19 +22,15 @@ const SearchBar = ({
     setInputValue(e.target.value);
   };
   const handleOnAdd = () => {
-    // 다중 재료 추가
     if (inputValue !== '' && selectedList.includes(inputValue) == false) {
       const newArr = [...selectedList];
       newArr.push(inputValue);
       setSelectedList(newArr);
-      console.log(selectedList);
     }
-    // 추가했으면 입력창 비우기
     setInputValue('');
   };
 
   const handleOnSubmit = () => {
-    // 조회
     setIsSubmitted(true);
   };
 

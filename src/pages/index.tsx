@@ -1,34 +1,24 @@
 import type { NextPage } from 'next';
 import ResultBox from 'src/components/ResultBox';
-import { useEffect, useRef, useState } from 'react';
-import Item from 'src/components/Item';
+import { useEffect, useState } from 'react';
 import SearchBar from 'src/components/SearchBar';
 import TagList from 'src/components/TagList';
-import { useData } from 'src/hooks/useData';
+import { API_ENDPOINT } from 'src/constants';
 
 const Home: NextPage = () => {
-  const [selectedList, setSelectedList] = useState<any>([]);
-  const [result, setResult] = useState<string[]>([]);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [selectedList, setSelectedList] = useState<string[]>([]);
+  const [urlArray, setUrlArray] = useState<string[]>([]);
 
   useEffect(() => {
-    console.log(selectedList);
+    const newArr = [];
+    for (let i = 0; i < selectedList.length; i++) {
+      newArr.push(`${API_ENDPOINT}filter.php?i=${selectedList[i]}`);
+    }
+    setUrlArray(newArr);
+    setIsSubmitted(false);
   }, [selectedList]);
 
-  // const beforeItem = useRef<any>();
-
-  // const { data: item, error: itemError } = useData(
-  //   `filter.php?i=${selected}`,
-  //   '',
-  // );
-
-  // if (item !== undefined && item !== '' && beforeItem.current !== item) {
-  //   result.push(item);
-  //   beforeItem.current = item;
-  //   console.log('푸시');
-  // }
-
-  const index = 0;
   return (
     <div>
       <SearchBar
@@ -37,18 +27,7 @@ const Home: NextPage = () => {
         setIsSubmitted={setIsSubmitted}
       />
       <TagList selectedList={selectedList} setSelectedList={setSelectedList} />
-      {isSubmitted ? (
-        <ResultBox
-          index={index}
-          selectedList={selectedList}
-          result={result}
-          setResult={setResult}
-        />
-      ) : (
-        <></>
-      )}
-
-      <h1>홈</h1>
+      {isSubmitted && urlArray ? <ResultBox urlArray={urlArray} /> : <></>}
     </div>
   );
 };
