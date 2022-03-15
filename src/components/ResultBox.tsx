@@ -2,6 +2,7 @@ import useSWR from 'swr';
 import Item from 'src/components/Item';
 import { arrayFetcher } from 'src/utils/fetcher';
 import { Cocktail } from 'src/types/Cocktail';
+import styled from 'styled-components';
 
 interface ResultProps {
   urlArray: string[];
@@ -40,12 +41,20 @@ const ResultBox = ({ urlArray }: ResultProps) => {
   }
 
   return (
-    <div>
+    <ResultContainer>
       {mapToArray.map((key) => {
         return <Item key={`item-${key[0]}`} id={key[0]} />;
       })}
-    </div>
+    </ResultContainer>
   );
 };
+
+const ResultContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
 
 export default ResultBox;
