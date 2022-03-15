@@ -6,7 +6,5 @@ export const useData = (
   path: string,
   pathId: string | undefined | string[],
 ) => {
-  // console.log(`${API_ENDPOINT}${path}${pathId}`);
-  // pathId 는 / 로 시작
   return useSWR(`${API_ENDPOINT}${path}${pathId}`, fetcher);
 };

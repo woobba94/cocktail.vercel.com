@@ -1,11 +1,6 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useData } from 'src/hooks/useData';
-import { Cocktail } from 'src/types/Cocktail';
-
-interface CocktailProps {
-  cocktailData: Cocktail;
-}
 
 const Detail: NextPage = () => {
   const router = useRouter();
@@ -14,10 +9,7 @@ const Detail: NextPage = () => {
   const { data, error } = useData(`${pathname}`, '');
 
   const cocktailData = data?.drinks[0];
-  console.log(cocktailData);
-  // const { idDrink, strDrink, strIngredient1, strIngredient2 } = cocktailData ? cocktailData : { '','','',''};
 
-  // const { data, error } = useData(pathname, id);
   return (
     <div>
       <h1>디테일</h1>
