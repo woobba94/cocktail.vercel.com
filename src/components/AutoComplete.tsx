@@ -1,32 +1,29 @@
 import { useEffect, useState } from 'react';
-import { useData } from 'src/hooks/useData';
 interface AutoCompleteProps {
   inputValue: string;
+  ingredients: string[];
 }
 
-const AutoComplete = ({ inputValue }: AutoCompleteProps) => {
-  const { data, error } = useData('list.php?i=list', '');
-  const [ingredients, setIngredients] = useState<any>([]);
-
+const AutoComplete = ({ inputValue, ingredients }: AutoCompleteProps) => {
+  const [searchedIngredients, setSearchedIngredients] = useState<any>([]);
   useEffect(() => {
-    if (data) {
+    if (!inputValue) {
+      setSearchedIngredients([]);
+    } else if (ingredients) {
       const newArr: string[] = [];
-      Object.values(data.drinks).forEach((ingredient: any) => {
-        if (
-          ingredient.strIngredient1
-            .toLowerCase()
-            .indexOf(inputValue.toLowerCase()) > -1
-        ) {
-          newArr.push(ingredient.strIngredient1);
+
+      ingredients.forEach((ingredient: string) => {
+        if (ingredient.toLowerCase().indexOf(inputValue.toLowerCase()) > -1) {
+          newArr.push(ingredient);
         }
       });
-      setIngredients(newArr);
+      setSearchedIngredients(newArr.sort());
     }
   }, [inputValue]);
 
   return (
     <div>
-      {ingredients.map((ingredient: string) => {
+      {searchedIngredients.map((ingredient: string) => {
         return <div key={ingredient}>{ingredient}</div>;
       })}
     </div>

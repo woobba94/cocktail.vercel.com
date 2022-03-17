@@ -1,18 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
 import AutoComplete from './AutoComplete';
+import { useData } from 'src/hooks/useData';
+import MenuTab from './Category';
 
-interface SearchBarProps {
+interface SearchContainerProps {
   selectedList: string[];
   setSelectedList: (value: string[]) => void;
   setIsSubmitted: (value: boolean) => void;
 }
 
-const SearchBar = ({
+const SearchContainer = ({
   selectedList,
   setSelectedList,
   setIsSubmitted,
-}: SearchBarProps) => {
+}: SearchContainerProps) => {
   const [inputValue, setInputValue] = useState<string>('');
+  const ingredients = useRef<string[]>([]);
+
+  const { data, error } = useData('list.php?i=list', '');
+
+  if (data && ingredients.current.length === 0) {
+    Object.values(data.drinks).forEach((ingredient: any) => {
+      ingredients.current.push(ingredient.strIngredient1);
+    });
+    ingredients.current.sort();
+  }
 
   useEffect(() => {
     setIsSubmitted(false);
@@ -35,17 +48,29 @@ const SearchBar = ({
   };
 
   return (
-    <div>
+    <Container>
       <input
         placeholder="재료 입력"
         onChange={handleOnChange}
         value={inputValue}
       />
-      <AutoComplete inputValue={inputValue} />
+      {ingredients.current !== [] ? (
+        <AutoComplete
+          inputValue={inputValue}
+          ingredients={ingredients.current}
+        />
+      ) : (
+        <></>
+      )}
+      <MenuTab ingredients={ingredients.current} />
       <button onClick={handleOnAdd}>추가</button>
       <button onClick={handleOnSubmit}>제출</button>
-    </div>
+    </Container>
   );
 };
 
-export default SearchBar;
+const Container = styled.div`
+  background-color: whitesmoke;
+`;
+
+export default SearchContainer;
