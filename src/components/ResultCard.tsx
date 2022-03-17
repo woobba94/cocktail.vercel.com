@@ -7,7 +7,7 @@ interface CocktailProps {
   id: string;
 }
 
-const Item = ({ id }: CocktailProps) => {
+const ResultCard = ({ id }: CocktailProps) => {
   const pathname = `/lookup.php?i=${id}`;
   const { data, error } = useData(`${pathname}`, '');
   const cocktailData = data?.drinks[0];
@@ -69,4 +69,4 @@ const ItemIngredient = styled.div`
   font-weight: 500;
 `;
 
-export default Item;
+export default ResultCard;

@@ -1,14 +1,14 @@
 import useSWR from 'swr';
-import Item from 'src/components/Item';
+import Item from 'src/components/ResultCard';
 import { arrayFetcher } from 'src/utils/fetcher';
 import { Cocktail } from 'src/types/Cocktail';
 import styled from 'styled-components';
 
-interface ResultProps {
+interface ResultContainerProps {
   urlArray: string[];
 }
 
-const ResultBox = ({ urlArray }: ResultProps) => {
+const ResultContainer = ({ urlArray }: ResultContainerProps) => {
   const { data, error } = useSWR([urlArray], arrayFetcher);
   const result: Cocktail[][] = [];
 
@@ -37,19 +37,18 @@ const ResultBox = ({ urlArray }: ResultProps) => {
     }
     mapToArray = [...realResult];
     mapToArray.sort((a, b) => b[1] - a[1]);
-    console.log(mapToArray);
   }
 
   return (
-    <ResultContainer>
+    <ResultWrapper>
       {mapToArray.map((key) => {
         return <Item key={`item-${key[0]}`} id={key[0]} />;
       })}
-    </ResultContainer>
+    </ResultWrapper>
   );
 };
 
-const ResultContainer = styled.div`
+const ResultWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   position: relative;
@@ -57,4 +56,4 @@ const ResultContainer = styled.div`
   height: 100%;
 `;
 
-export default ResultBox;
+export default ResultContainer;

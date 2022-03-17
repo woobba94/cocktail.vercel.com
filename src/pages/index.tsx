@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
-import ResultBox from 'src/components/ResultBox';
+import ResultBox from 'src/components/ResultContainer';
 import { useEffect, useState } from 'react';
-import SearchBar from 'src/components/SearchBar';
+import SearchMenu from 'src/components/SearchContainer';
 import TagList from 'src/components/TagList';
 import { API_ENDPOINT } from 'src/constants';
 
@@ -21,7 +21,7 @@ const Home: NextPage = () => {
 
   return (
     <div>
-      <SearchBar
+      <SearchMenu
         selectedList={selectedList}
         setSelectedList={setSelectedList}
         setIsSubmitted={setIsSubmitted}
