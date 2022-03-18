@@ -49,7 +49,7 @@ const SearchContainer = ({
 
   return (
     <Container>
-      <input
+      <Input
         placeholder="재료 입력"
         onChange={handleOnChange}
         value={inputValue}
@@ -70,7 +70,15 @@ const SearchContainer = ({
 };
 
 const Container = styled.div`
+  width: 100vw;
+  position: fixed;
   background-color: whitesmoke;
+  z-index: 2;
+`;
+const Input = styled.input`
+  width: 100%;
+  max-width: 400px;
+  height: 50px;
 `;
 
 export default SearchContainer;
