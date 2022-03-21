@@ -43,15 +43,11 @@ const SearchContainer = ({
     setInputValue(e.target.value);
   };
   const handleOnAdd = (e: any) => {
-    setCurrentItem(e.currentTarget.textContent);
+    const value = e.currentTarget.textContent;
 
-    if (
-      currentItem &&
-      inputValue !== '' &&
-      selectedList.includes(currentItem) == false
-    ) {
+    if (value && inputValue !== '' && selectedList.includes(value) == false) {
       const newArr = [...selectedList];
-      newArr.push(currentItem);
+      newArr.push(value);
       setSelectedList(newArr);
     }
     setInputValue('');

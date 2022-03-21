@@ -1,3 +1,5 @@
+import styled from 'styled-components';
+
 interface Props {
   setSelectedList: (value: string[]) => void;
   selectedList: string[];
@@ -19,7 +21,7 @@ const TagList = ({ selectedList, setSelectedList }: Props) => {
   };
 
   return (
-    <div>
+    <Container>
       {selectedList ? (
         <div>
           {selectedList.map((tag: string) => {
@@ -35,8 +37,12 @@ const TagList = ({ selectedList, setSelectedList }: Props) => {
       ) : (
         <div>Enter the ingredient</div>
       )}
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  padding-top: 150px;
+`;
 
 export default TagList;
