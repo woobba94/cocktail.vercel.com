@@ -16,6 +16,10 @@ const SearchContainer = ({
   setIsSubmitted,
 }: SearchContainerProps) => {
   const [inputValue, setInputValue] = useState<string>('');
+  const [currentItem, setCurrentItem] = useState<string>('');
+  const [currentFocus, setCurrentFocus] = useState<number>(0);
+  const [isNewInput, setIsNewInput] = useState<boolean>(false);
+  const [isArrowPressed, setIsArrowPressed] = useState<boolean>(false);
   const ingredients = useRef<string[]>([]);
 
   const { data, error } = useData('list.php?i=list', '');
@@ -28,16 +32,26 @@ const SearchContainer = ({
   }
 
   useEffect(() => {
+    console.log(currentItem);
+  }, [currentItem]);
+
+  useEffect(() => {
     setIsSubmitted(false);
   }, [selectedList]);
 
   const handleOnChange = (e: any) => {
     setInputValue(e.target.value);
   };
-  const handleOnAdd = () => {
-    if (inputValue !== '' && selectedList.includes(inputValue) == false) {
+  const handleOnAdd = (e: any) => {
+    setCurrentItem(e.currentTarget.textContent);
+
+    if (
+      currentItem &&
+      inputValue !== '' &&
+      selectedList.includes(currentItem) == false
+    ) {
       const newArr = [...selectedList];
-      newArr.push(inputValue);
+      newArr.push(currentItem);
       setSelectedList(newArr);
     }
     setInputValue('');
@@ -47,23 +61,63 @@ const SearchContainer = ({
     setIsSubmitted(true);
   };
 
+  const handleKeyUp = (e: any) => {
+    if (e.key === 'Enter') {
+      if (
+        currentItem &&
+        inputValue !== '' &&
+        selectedList.includes(currentItem) == false
+      ) {
+        const newArr = [...selectedList];
+        newArr.push(currentItem);
+        setSelectedList(newArr);
+      }
+      setInputValue('');
+      return;
+    }
+    if (
+      (/[a-zA-Z]/g.test(e.key) && e.key.length === 1) ||
+      e.key === 'Backspace'
+    ) {
+      setIsNewInput(true);
+      setIsArrowPressed(false);
+    } else {
+      setIsNewInput(false);
+      setIsArrowPressed(false);
+    }
+    if (e.key == 'ArrowDown') {
+      setCurrentFocus(currentFocus + 1);
+      setIsArrowPressed(true);
+    } else if (e.key == 'ArrowUp') {
+      setCurrentFocus(currentFocus - 1);
+      setIsArrowPressed(true);
+    }
+  };
+
   return (
     <Container>
       <Input
         placeholder="재료 입력"
         onChange={handleOnChange}
         value={inputValue}
+        onKeyUp={handleKeyUp}
       />
       {ingredients.current !== [] ? (
         <AutoComplete
           inputValue={inputValue}
           ingredients={ingredients.current}
+          handleOnAdd={handleOnAdd}
+          currentFocus={currentFocus}
+          setCurrentFocus={setCurrentFocus}
+          setInputValue={setInputValue}
+          isNewInput={isNewInput}
+          setCurrentItem={setCurrentItem}
+          isArrowPressed={isArrowPressed}
         />
       ) : (
         <></>
       )}
       <MenuTab ingredients={ingredients.current} />
-      <button onClick={handleOnAdd}>추가</button>
       <button onClick={handleOnSubmit}>제출</button>
     </Container>
   );

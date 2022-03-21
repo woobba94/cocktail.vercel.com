@@ -3,14 +3,62 @@ import styled from 'styled-components';
 interface AutoCompleteProps {
   inputValue: string;
   ingredients: string[];
+  handleOnAdd: (value: any) => void;
+  currentFocus: number;
+  setCurrentFocus: (value: any) => void;
+  setInputValue: (value: string) => void;
+  isNewInput: boolean;
+  setCurrentItem: (value: string) => void;
+  isArrowPressed: boolean;
 }
 
-const AutoComplete = ({ inputValue, ingredients }: AutoCompleteProps) => {
-  const [searchedIngredients, setSearchedIngredients] = useState<any>([]);
+const AutoComplete = ({
+  inputValue,
+  ingredients,
+  handleOnAdd,
+  currentFocus,
+  setInputValue,
+  setCurrentFocus,
+  isNewInput,
+  setCurrentItem,
+  isArrowPressed,
+}: AutoCompleteProps) => {
+  const [searchedIngredients, setSearchedIngredients] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (currentFocus >= searchedIngredients.length) {
+      setCurrentFocus(0);
+    } else if (currentFocus < 0) {
+      setCurrentFocus(searchedIngredients.length - 1);
+    }
+
+    if (searchedIngredients[currentFocus]) {
+      const ingredient = searchedIngredients[currentFocus]
+        .replaceAll('<b>', '')
+        .replaceAll('</b>', '');
+      if (isArrowPressed) setInputValue(ingredient);
+    }
+
+    setCurrentItem(
+      searchedIngredients[currentFocus]
+        ?.replaceAll('<b>', '')
+        .replaceAll('</b>', ''),
+    );
+  }, [currentFocus]);
+
+  useEffect(() => {
+    setCurrentFocus(0);
+    setCurrentItem(
+      searchedIngredients[currentFocus]
+        ?.replaceAll('<b>', '')
+        .replaceAll('</b>', ''),
+    );
+  }, [searchedIngredients]);
+
   useEffect(() => {
     if (!inputValue) {
       setSearchedIngredients([]);
-    } else if (ingredients) {
+    } else if (isNewInput && ingredients) {
       ingredients.sort();
       const newArr: string[] = [];
 
@@ -24,7 +72,7 @@ const AutoComplete = ({ inputValue, ingredients }: AutoCompleteProps) => {
         if (index > -1) {
           ingredient = ingredient.replaceAll(
             inputValue,
-            `<span style="background-color: tomato">${inputValue}</span>`,
+            `<b>${inputValue}</b>`,
           );
 
           // 첫번째 문자가 일치
@@ -48,12 +96,14 @@ const AutoComplete = ({ inputValue, ingredients }: AutoCompleteProps) => {
 
   return (
     <Container>
-      {searchedIngredients.map((ingredient: string) => {
+      {searchedIngredients.map((ingredient: string, index: number) => {
         return (
-          <div
+          <Button
             key={ingredient}
+            color={currentFocus === index ? 'pink' : 'skyblue'}
             dangerouslySetInnerHTML={{ __html: ingredient }}
-          ></div>
+            onClick={handleOnAdd}
+          ></Button>
         );
       })}
     </Container>
@@ -67,10 +117,12 @@ const Container = styled.div`
   position: absolute;
   width: 100%;
   max-width: 400px;
-  max-height: 200px;
-  overflow-y: scroll;
   background-color: royalblue;
   top: 50px;
+`;
+
+const Button = styled.button`
+  background-color: ${(props) => props.color};
 `;
 
 export default AutoComplete;
