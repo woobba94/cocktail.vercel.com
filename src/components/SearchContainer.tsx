@@ -32,10 +32,6 @@ const SearchContainer = ({
   }
 
   useEffect(() => {
-    console.log(currentItem);
-  }, [currentItem]);
-
-  useEffect(() => {
     setIsSubmitted(false);
   }, [selectedList]);
 

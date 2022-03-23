@@ -3,11 +3,11 @@ import { useData } from 'src/hooks/useData';
 import { Cocktail } from 'src/types/Cocktail';
 import styled from 'styled-components';
 
-interface CocktailProps {
+interface ResultCardProps {
   id: string;
 }
 
-const ResultCard = ({ id }: CocktailProps) => {
+const ResultCard = ({ id }: ResultCardProps) => {
   const pathname = `/lookup.php?i=${id}`;
   const { data, error } = useData(`${pathname}`, '');
   const cocktailData = data?.drinks[0];
