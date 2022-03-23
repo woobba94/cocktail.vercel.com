@@ -32,9 +32,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     sessionStorage.setItem('selectedHistory', JSON.stringify(selectedList));
-  }, [selectedList]);
 
-  useEffect(() => {
     const newArr = [];
     for (let i = 0; i < selectedList.length; i++) {
       newArr.push(`${API_ENDPOINT}filter.php?i=${selectedList[i]}`);
