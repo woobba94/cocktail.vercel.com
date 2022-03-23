@@ -12,6 +12,13 @@ const InfiniteScrollContainer = ({
   const [itemList, setItemList] = useState<[string, number][]>([]);
   const [countItem, setCountItem] = useState(12);
   const [ref, inView] = useInView();
+
+  useEffect(() => {
+    if (parseInt(sessionStorage.getItem('countHistory') || '12') === 0) {
+      setCountItem(12);
+    }
+  });
+
   useEffect(() => {
     setCountItem(parseInt(sessionStorage.getItem('countHistory') || '12'));
   }, []);

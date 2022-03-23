@@ -33,6 +33,8 @@ const SearchContainer = ({
     setInputValue(e.target.value);
   };
   const handleOnAdd = (e: any) => {
+    sessionStorage.setItem('countHistory', '0');
+    sessionStorage.setItem('scrollHistory', '0');
     const value = e.currentTarget.textContent;
 
     if (value && inputValue !== '' && selectedList.includes(value) == false) {
@@ -45,6 +47,8 @@ const SearchContainer = ({
 
   const handleKeyUp = (e: any) => {
     if (e.key === 'Enter') {
+      sessionStorage.setItem('countHistory', '0');
+      sessionStorage.setItem('scrollHistory', '0');
       if (
         currentItem &&
         inputValue !== '' &&
