@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import AutoComplete from './AutoComplete';
 import { useData } from 'src/hooks/useData';
-import MenuTab from './Category';
+import Category from './Category';
 
 interface SearchContainerProps {
   selectedList: string[];
@@ -103,7 +103,11 @@ const SearchContainer = ({
       ) : (
         <></>
       )}
-      <MenuTab ingredients={ingredients.current} />
+      <Category
+        ingredients={ingredients.current}
+        setSelectedList={setSelectedList}
+        selectedList={selectedList}
+      />
     </Container>
   );
 };
