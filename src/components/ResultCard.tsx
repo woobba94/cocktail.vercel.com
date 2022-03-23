@@ -12,6 +12,13 @@ const ResultCard = ({ id }: ResultCardProps) => {
   const { data, error } = useData(`${pathname}`, '');
   const cocktailData = data?.drinks[0];
 
+  if (data) {
+    window.scrollTo(
+      0,
+      parseFloat(sessionStorage.getItem('scrollHistory') || '0'),
+    );
+  }
+
   return (
     <Link href={`/detail?${data?.drinks[0].idDrink}`}>
       <ItemContainer>

@@ -1,14 +1,38 @@
 import type { NextPage } from 'next';
-import ResultBox from 'src/components/ResultContainer';
+import ResultContainer from 'src/components/ResultContainer';
 import { useEffect, useState } from 'react';
-import SearchMenu from 'src/components/SearchContainer';
+import SearchContainer from 'src/components/SearchContainer';
 import TagList from 'src/components/TagList';
 import { API_ENDPOINT } from 'src/constants';
 
 const Home: NextPage = () => {
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [selectedList, setSelectedList] = useState<string[]>([]);
   const [urlArray, setUrlArray] = useState<string[]>([]);
+
+  useEffect(() => {
+    setSelectedList(
+      JSON.parse(sessionStorage.getItem('selectedHistory') || '{}'),
+    );
+
+    const setScrollHistory = () => {
+      if (location.pathname === '/') {
+        sessionStorage.setItem(
+          'scrollHistory',
+          JSON.stringify(window.pageYOffset),
+        );
+      }
+    };
+
+    // 스크롤 이벤트
+    window.addEventListener('scroll', setScrollHistory);
+    return () => {
+      window.removeEventListener('scroll', setScrollHistory);
+    };
+  }, []);
+
+  useEffect(() => {
+    sessionStorage.setItem('selectedHistory', JSON.stringify(selectedList));
+  }, [selectedList]);
 
   useEffect(() => {
     const newArr = [];
@@ -16,18 +40,16 @@ const Home: NextPage = () => {
       newArr.push(`${API_ENDPOINT}filter.php?i=${selectedList[i]}`);
     }
     setUrlArray(newArr);
-    setIsSubmitted(false);
   }, [selectedList]);
 
   return (
     <div>
-      <SearchMenu
+      <SearchContainer
         selectedList={selectedList}
         setSelectedList={setSelectedList}
-        setIsSubmitted={setIsSubmitted}
       />
       <TagList selectedList={selectedList} setSelectedList={setSelectedList} />
-      {isSubmitted && urlArray ? <ResultBox urlArray={urlArray} /> : <></>}
+      {urlArray ? <ResultContainer urlArray={urlArray} /> : <></>}
     </div>
   );
 };

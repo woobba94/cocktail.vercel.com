@@ -12,6 +12,9 @@ const InfiniteScrollContainer = ({
   const [itemList, setItemList] = useState<[string, number][]>([]);
   const [countItem, setCountItem] = useState(12);
   const [ref, inView] = useInView();
+  useEffect(() => {
+    setCountItem(parseInt(sessionStorage.getItem('countHistory') || '12'));
+  }, []);
 
   useEffect(() => {
     setItemList(initialData.slice(0, countItem));
@@ -19,7 +22,8 @@ const InfiniteScrollContainer = ({
 
   useEffect(() => {
     if (inView) {
-      setCountItem(countItem + 10);
+      setCountItem(countItem + 4);
+      sessionStorage.setItem('countHistory', JSON.stringify(countItem));
     }
   }, [inView]);
 
@@ -27,7 +31,7 @@ const InfiniteScrollContainer = ({
     <>
       {itemList.map((key, index: number) => {
         return index === itemList.length - 1 ? (
-          <div ref={ref}>
+          <div key={`item-${key[0]}`} ref={ref}>
             <ResultCard key={`item-${key[0]}`} id={key[0]} />
           </div>
         ) : (

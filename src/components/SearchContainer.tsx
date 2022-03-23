@@ -7,13 +7,11 @@ import MenuTab from './Category';
 interface SearchContainerProps {
   selectedList: string[];
   setSelectedList: (value: string[]) => void;
-  setIsSubmitted: (value: boolean) => void;
 }
 
 const SearchContainer = ({
   selectedList,
   setSelectedList,
-  setIsSubmitted,
 }: SearchContainerProps) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [currentItem, setCurrentItem] = useState<string>('');
@@ -31,10 +29,6 @@ const SearchContainer = ({
     ingredients.current.sort();
   }
 
-  useEffect(() => {
-    setIsSubmitted(false);
-  }, [selectedList]);
-
   const handleOnChange = (e: any) => {
     setInputValue(e.target.value);
   };
@@ -47,10 +41,6 @@ const SearchContainer = ({
       setSelectedList(newArr);
     }
     setInputValue('');
-  };
-
-  const handleOnSubmit = () => {
-    setIsSubmitted(true);
   };
 
   const handleKeyUp = (e: any) => {
@@ -110,7 +100,6 @@ const SearchContainer = ({
         <></>
       )}
       <MenuTab ingredients={ingredients.current} />
-      <button onClick={handleOnSubmit}>제출</button>
     </Container>
   );
 };
