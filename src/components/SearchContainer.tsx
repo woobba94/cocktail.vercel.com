@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import AutoComplete from './AutoComplete';
 import { useData } from 'src/hooks/useData';
 import Category from './Category';
+import { getNewArray } from 'src/utils/utils';
 
 interface SearchContainerProps {
   selectedList: string[];
@@ -22,61 +23,60 @@ const SearchContainer = ({
 
   const { data, error } = useData('list.php?i=list', '');
 
-  if (data && ingredients.current.length === 0) {
-    Object.values(data.drinks).forEach((ingredient: any) => {
-      ingredients.current.push(ingredient.strIngredient1);
-    });
+  const initIngredients = () => {
+    Object.values<{ strIngredient1: string }>(data.drinks).forEach(
+      (ingredient) => {
+        ingredients.current.push(ingredient.strIngredient1);
+      },
+    );
     ingredients.current.sort();
+  };
+
+  if (error) {
+    console.log('api error');
   }
 
-  const handleOnChange = (e: any) => {
+  data && ingredients.current.length === 0 && initIngredients();
+
+  const handleInput = (e: any) => {
     setInputValue(e.target.value);
   };
-  const handleOnAdd = (e: any) => {
-    sessionStorage.setItem('countHistory', '0');
-    sessionStorage.setItem('scrollHistory', '0');
-    const value = e.currentTarget.textContent;
 
-    if (value && inputValue !== '' && selectedList.includes(value) == false) {
-      const newArr = [...selectedList];
-      newArr.push(value);
-      setSelectedList(newArr);
+  const handleOnAdd = (e: any) => {
+    const value =
+      e.currentTarget.textContent === ''
+        ? currentItem
+        : e.currentTarget.textContent;
+
+    if (value && selectedList.includes(value) == false) {
+      setSelectedList(getNewArray(selectedList, value));
+      setInputValue('');
     }
-    setInputValue('');
   };
 
   const handleKeyUp = (e: any) => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      setIsArrowPressed(true);
+      setIsNewInput(false);
+      setCurrentFocus(
+        e.key === 'ArrowDown' ? currentFocus + 1 : currentFocus - 1,
+      );
+      return;
+    } else {
+      setIsArrowPressed(false);
+    }
     if (e.key === 'Enter') {
-      sessionStorage.setItem('countHistory', '0');
-      sessionStorage.setItem('scrollHistory', '0');
-      if (
-        currentItem &&
-        inputValue !== '' &&
-        selectedList.includes(currentItem) == false
-      ) {
-        const newArr = [...selectedList];
-        newArr.push(currentItem);
-        setSelectedList(newArr);
-      }
-      setInputValue('');
+      handleOnAdd(e);
       return;
     }
-    if (
-      (/[a-zA-Z]/g.test(e.key) && e.key.length === 1) ||
-      e.key === 'Backspace'
-    ) {
+
+    const isChar = (str: string) => {
+      return /[a-zA-Z]/g.test(str) && str.length === 1;
+    };
+
+    if (isChar(e.key)) {
       setIsNewInput(true);
-      setIsArrowPressed(false);
-    } else {
-      setIsNewInput(false);
-      setIsArrowPressed(false);
-    }
-    if (e.key == 'ArrowDown') {
-      setCurrentFocus(currentFocus + 1);
-      setIsArrowPressed(true);
-    } else if (e.key == 'ArrowUp') {
-      setCurrentFocus(currentFocus - 1);
-      setIsArrowPressed(true);
+      return;
     }
   };
 
@@ -84,11 +84,11 @@ const SearchContainer = ({
     <Container>
       <Input
         placeholder="재료 입력"
-        onChange={handleOnChange}
+        onChange={handleInput}
         value={inputValue}
         onKeyUp={handleKeyUp}
       />
-      {ingredients.current !== [] ? (
+      {ingredients.current.length > 0 ? (
         <AutoComplete
           inputValue={inputValue}
           ingredients={ingredients.current}
@@ -100,9 +100,7 @@ const SearchContainer = ({
           setCurrentItem={setCurrentItem}
           isArrowPressed={isArrowPressed}
         />
-      ) : (
-        <></>
-      )}
+      ) : null}
       <Category
         ingredients={ingredients.current}
         setSelectedList={setSelectedList}

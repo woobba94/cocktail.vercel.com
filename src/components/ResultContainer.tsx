@@ -40,11 +40,7 @@ const ResultContainer = ({ urlArray }: ResultContainerProps) => {
   }
   return (
     <ResultWrapper>
-      {mapToArray ? (
-        <InfiniteScrollContainer initialData={mapToArray} />
-      ) : (
-        <></>
-      )}
+      {mapToArray ? <InfiniteScrollContainer initialData={mapToArray} /> : null}
     </ResultWrapper>
   );
 };
