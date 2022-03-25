@@ -1,3 +1,4 @@
+import { resetStorage } from 'src/utils/utils';
 import styled from 'styled-components';
 
 interface Props {
@@ -18,8 +19,6 @@ const TagList = ({ selectedList, setSelectedList }: Props) => {
     // targetIndex의 원소를 삭제
     tempArr.splice(targetIndex, 1);
     setSelectedList(tempArr);
-    sessionStorage.setItem('countHistory', '0');
-    sessionStorage.setItem('scrollHistory', '0');
   };
 
   return (

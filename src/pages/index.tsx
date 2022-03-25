@@ -1,13 +1,18 @@
 import type { NextPage } from 'next';
 import ResultContainer from 'src/components/ResultContainer';
 import { useEffect, useState } from 'react';
-import SearchContainer from 'src/components/SearchContainer';
 import TagList from 'src/components/TagList';
 import { API_ENDPOINT } from 'src/constants';
+import { resetStorage } from 'src/utils/utils';
+import SearchContainer from 'src/components/SearchContainer';
 
 const Home: NextPage = () => {
   const [selectedList, setSelectedList] = useState<string[]>([]);
   const [urlArray, setUrlArray] = useState<string[]>([]);
+
+  useEffect(() => {
+    resetStorage();
+  }, [selectedList]);
 
   useEffect(() => {
     setSelectedList(
@@ -41,14 +46,14 @@ const Home: NextPage = () => {
   }, [selectedList]);
 
   return (
-    <div>
+    <>
       <SearchContainer
         selectedList={selectedList}
         setSelectedList={setSelectedList}
       />
       <TagList selectedList={selectedList} setSelectedList={setSelectedList} />
-      {urlArray ? <ResultContainer urlArray={urlArray} /> : <></>}
-    </div>
+      {urlArray ? <ResultContainer urlArray={urlArray} /> : null}
+    </>
   );
 };
 

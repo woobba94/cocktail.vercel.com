@@ -1,3 +1,4 @@
+import { getNewArray } from 'src/utils/utils';
 import styled from 'styled-components';
 import { CATEGORY } from '../constants';
 
@@ -32,11 +33,8 @@ const Category = ({
   const handleOnClick = (e: any) => {
     if (e.target.tagName === 'LI') {
       const value = e.target.textContent;
-      if (!selectedList.includes(value)) {
-        const newArr = [...selectedList];
-        newArr.push(value);
-        setSelectedList(newArr);
-      }
+      !selectedList.includes(value) &&
+        setSelectedList(getNewArray(selectedList, value));
     }
   };
 
