@@ -5,6 +5,8 @@ import TagList from 'src/components/TagList';
 import { API_ENDPOINT } from 'src/constants';
 import { resetStorage } from 'src/utils/utils';
 import SearchContainer from 'src/components/SearchContainer';
+import Header from 'src/components/Header';
+import styled from 'styled-components';
 
 const Home: NextPage = () => {
   const [selectedList, setSelectedList] = useState<string[]>([]);
@@ -47,14 +49,31 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <SearchContainer
-        selectedList={selectedList}
-        setSelectedList={setSelectedList}
-      />
-      <TagList selectedList={selectedList} setSelectedList={setSelectedList} />
-      {urlArray ? <ResultContainer urlArray={urlArray} /> : null}
+      <TopContainer>
+        <Header />
+        <SearchContainer
+          selectedList={selectedList}
+          setSelectedList={setSelectedList}
+        />
+        <TagList
+          selectedList={selectedList}
+          setSelectedList={setSelectedList}
+        />
+      </TopContainer>
+      <BottomContainer>
+        {urlArray ? <ResultContainer urlArray={urlArray} /> : null}
+      </BottomContainer>
     </>
   );
 };
+
+const TopContainer = styled.div`
+  position: fixed;
+  top: 0;
+  z-index: 2;
+`;
+const BottomContainer = styled.div`
+  margin-top: 200px;
+`;
 
 export default Home;

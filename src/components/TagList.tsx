@@ -24,26 +24,37 @@ const TagList = ({ selectedList, setSelectedList }: Props) => {
   return (
     <Container>
       {selectedList ? (
-        <div>
+        <Tag>
           {selectedList.map((tag: string) => {
             return (
-              <div key={tag}>
-                <button onClick={handleOnRemove} value={tag}>
-                  {tag} [x]
-                </button>
-              </div>
+              <button key={tag} onClick={handleOnRemove} value={tag}>
+                {tag} [x]
+              </button>
             );
           })}
-        </div>
-      ) : (
-        <div>Enter the ingredient</div>
-      )}
+        </Tag>
+      ) : null}
     </Container>
   );
 };
 
 const Container = styled.div`
-  padding-top: 150px;
+  position: relative;
+  overflow: hidden;
+  margin-top: 10px;
+  height: 30px;
+`;
+
+const Tag = styled.div`
+  position: absolute;
+  display: flex;
+  width: 100vw;
+  overflow-x: scroll;
+  white-space: nowrap;
+  button {
+    height: 30px;
+    margin: 0 0.1rem;
+  }
 `;
 
 export default TagList;

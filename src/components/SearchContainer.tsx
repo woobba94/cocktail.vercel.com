@@ -112,9 +112,7 @@ const SearchContainer = ({
 
 const Container = styled.div`
   width: 100vw;
-  position: fixed;
   background-color: whitesmoke;
-  z-index: 2;
 `;
 const Input = styled.input`
   width: 100%;
