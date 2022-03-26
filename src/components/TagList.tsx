@@ -23,17 +23,15 @@ const TagList = ({ selectedList, setSelectedList }: Props) => {
 
   return (
     <Container>
-      {selectedList ? (
-        <Tag>
-          {selectedList.map((tag: string) => {
-            return (
-              <button key={tag} onClick={handleOnRemove} value={tag}>
-                {tag} [x]
-              </button>
-            );
-          })}
-        </Tag>
-      ) : null}
+      <Tag>
+        {selectedList.map((tag: string) => {
+          return (
+            <button key={tag} onClick={handleOnRemove} value={tag}>
+              {tag} [x]
+            </button>
+          );
+        })}
+      </Tag>
     </Container>
   );
 };
