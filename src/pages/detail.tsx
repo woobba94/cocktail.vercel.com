@@ -63,6 +63,9 @@ const Detail: NextPage = () => {
 
   return (
     <Container>
+      <button type="button" onClick={() => router.back()}>
+        Go Back
+      </button>
       <Title>{cocktailData?.strDrink}</Title>
       <InnerContainer>
         <img src={cocktailData?.strDrinkThumb}></img>
