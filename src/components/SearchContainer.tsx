@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import AutoComplete from './AutoComplete';
 import { useData } from 'src/hooks/useData';
 import Category from './Category';
-import { getNewArray } from 'src/utils/utils';
+import { getNewArray, resetStorage } from 'src/utils/utils';
 
 interface SearchContainerProps {
   selectedList: string[];
@@ -52,6 +52,7 @@ const SearchContainer = ({
       setSelectedList(getNewArray(selectedList, value));
       setInputValue('');
     }
+    resetStorage();
   };
 
   const handleKeyUp = (e: any) => {
@@ -80,6 +81,10 @@ const SearchContainer = ({
     }
   };
 
+  const handleReset = () => {
+    setInputValue('');
+  };
+
   return (
     <Container>
       <Input
@@ -88,6 +93,7 @@ const SearchContainer = ({
         value={inputValue}
         onKeyUp={handleKeyUp}
       />
+      <button onClick={handleReset}>X</button>
       {ingredients.current.length > 0 ? (
         <AutoComplete
           inputValue={inputValue}

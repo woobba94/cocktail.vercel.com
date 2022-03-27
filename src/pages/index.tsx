@@ -13,10 +13,6 @@ const Home: NextPage = () => {
   const [urlArray, setUrlArray] = useState<string[]>([]);
 
   useEffect(() => {
-    resetStorage();
-  }, [selectedList]);
-
-  useEffect(() => {
     setSelectedList(
       JSON.parse(sessionStorage.getItem('selectedHistory') || '{}'),
     );

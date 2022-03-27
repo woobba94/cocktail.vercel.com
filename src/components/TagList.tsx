@@ -19,6 +19,7 @@ const TagList = ({ selectedList, setSelectedList }: Props) => {
     // targetIndex의 원소를 삭제
     tempArr.splice(targetIndex, 1);
     setSelectedList(tempArr);
+    resetStorage();
   };
 
   return (
