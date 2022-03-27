@@ -1,7 +1,22 @@
 import type { NextPage } from 'next';
+import { useEffect, useState } from 'react';
+import FavoritesCard from 'src/components/FavoritesCard';
 
 const Favorites: NextPage = () => {
-  return <div>즐겨찾기 목록</div>;
+  const [favoritesList, setFavorites] = useState<string[]>([]);
+
+  useEffect(() => {
+    const arr = JSON.parse(localStorage.getItem('favoritesHistory') || '[]');
+    setFavorites(arr);
+  }, []);
+
+  return (
+    <div>
+      {favoritesList.map((item) => {
+        return <FavoritesCard key={item} id={item} />;
+      })}
+    </div>
+  );
 };
 
 export default Favorites;
