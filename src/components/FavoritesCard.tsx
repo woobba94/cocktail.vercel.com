@@ -11,24 +11,30 @@ const FavoritesCard = ({ id }: FavoritesCardProps) => {
   const { data, error } = useData(`${pathname}`, '');
   const cocktailData = data?.drinks[0];
   return (
-    <>
+    <Container>
       <div>{cocktailData?.strDrink}</div>
       <Link href={`/detail?${id}`}>
-        <div>
-          <ItemDetail image={cocktailData?.strDrinkThumb}></ItemDetail>
-        </div>
+        <ItemImage image={cocktailData?.strDrinkThumb}></ItemImage>
       </Link>
-    </>
+    </Container>
   );
 };
 
-const ItemDetail = styled.div<{ image: string }>`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ItemImage = styled.div<{ image: string }>`
+  display: flex;
+  flex-direction: column;
+  width: 95%;
   max-width: 300px;
-  max-height: 300px;
-  margin: 10px 10px 50px 10px;
-  padding: 30%;
+  min-width: 250px;
+  height: 250px;
+  margin-top: 20px;
   background-image: url(${(props) => props.image});
   background-size: cover;
   background-repeat: no-repeat;

@@ -38,24 +38,27 @@ const ResultCard = ({ id }: ResultCardProps) => {
 const ItemContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
 `;
 
 const ItemTitle = styled.h4`
   font-style: italic;
   font-weight: 600;
   font-size: 1.2rem;
+  margin: 0;
 `;
 
 const ItemDetail = styled.div<{ image: string }>`
   display: flex;
   flex-direction: column;
-  position: relative;
-  width: calc(100% / 3);
-  height: 100%;
-  margin: 50px 10px;
-  padding: 30%;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+  max-width: 300px;
+  min-width: 250px;
+  height: 300px;
+  margin-top: 20px;
   background-image: url(${(props) => props.image});
   background-size: cover;
   background-repeat: no-repeat;
@@ -68,8 +71,6 @@ const ItemDetail = styled.div<{ image: string }>`
 `;
 
 const ItemIngredient = styled.div`
-  display: block;
-  position: relative;
   background-color: rgba(999, 999, 999, 0.3);
   margin: 1px;
   font-size: 1.1rem;

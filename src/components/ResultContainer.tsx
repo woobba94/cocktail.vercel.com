@@ -3,6 +3,7 @@ import { arrayFetcher } from 'src/utils/fetcher';
 import { Cocktail } from 'src/types/Cocktail';
 import styled from 'styled-components';
 import InfiniteScrollContainer from './InfiniteScrollContainer';
+import { ResponsiveGrid } from 'src/styles/ResponsiveGrid';
 
 interface ResultContainerProps {
   urlArray: string[];
@@ -39,18 +40,10 @@ const ResultContainer = ({ urlArray }: ResultContainerProps) => {
     mapToArray.sort((a, b) => b[1] - a[1]);
   }
   return (
-    <ResultWrapper>
+    <ResponsiveGrid>
       {mapToArray ? <InfiniteScrollContainer initialData={mapToArray} /> : null}
-    </ResultWrapper>
+    </ResponsiveGrid>
   );
 };
-
-const ResultWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  position: relative;
-  width: 100%;
-  height: 100%;
-`;
 
 export default ResultContainer;

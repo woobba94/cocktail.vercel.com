@@ -1,8 +1,12 @@
 import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import FavoritesCard from 'src/components/FavoritesCard';
+import { ResponsiveGrid } from 'src/styles/ResponsiveGrid';
+import styled from 'styled-components';
 
 const Favorites: NextPage = () => {
+  const router = useRouter();
   const [favoritesList, setFavorites] = useState<string[]>([]);
 
   useEffect(() => {
@@ -12,9 +16,14 @@ const Favorites: NextPage = () => {
 
   return (
     <div>
-      {favoritesList.map((item) => {
-        return <FavoritesCard key={item} id={item} />;
-      })}
+      <button type="button" onClick={() => router.back()}>
+        Go Back
+      </button>
+      <ResponsiveGrid>
+        {favoritesList.map((item) => {
+          return <FavoritesCard key={item} id={item} />;
+        })}
+      </ResponsiveGrid>
     </div>
   );
 };
