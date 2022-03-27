@@ -81,6 +81,10 @@ const SearchContainer = ({
     }
   };
 
+  const handleReset = () => {
+    setInputValue('');
+  };
+
   return (
     <Container>
       <Input
@@ -89,6 +93,7 @@ const SearchContainer = ({
         value={inputValue}
         onKeyUp={handleKeyUp}
       />
+      <button onClick={handleReset}>X</button>
       {ingredients.current.length > 0 ? (
         <AutoComplete
           inputValue={inputValue}
