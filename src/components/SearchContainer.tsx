@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import AutoComplete from './AutoComplete';
 import { useData } from 'src/hooks/useData';
 import Category from './Category';
-import { getNewArray } from 'src/utils/utils';
+import { getNewArray, resetStorage } from 'src/utils/utils';
 
 interface SearchContainerProps {
   selectedList: string[];
@@ -52,6 +52,7 @@ const SearchContainer = ({
       setSelectedList(getNewArray(selectedList, value));
       setInputValue('');
     }
+    resetStorage();
   };
 
   const handleKeyUp = (e: any) => {
