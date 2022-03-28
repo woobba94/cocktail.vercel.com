@@ -1,7 +1,6 @@
 import type { NextPage } from 'next';
 import ResultContainer from 'src/components/ResultContainer';
 import { useEffect, useState } from 'react';
-import TagList from 'src/components/TagList';
 import { API_ENDPOINT } from 'src/constants';
 import { resetStorage } from 'src/utils/utils';
 import SearchContainer from 'src/components/SearchContainer';
@@ -48,10 +47,6 @@ const Home: NextPage = () => {
       <TopContainer>
         <Header />
         <SearchContainer
-          selectedList={selectedList}
-          setSelectedList={setSelectedList}
-        />
-        <TagList
           selectedList={selectedList}
           setSelectedList={setSelectedList}
         />
