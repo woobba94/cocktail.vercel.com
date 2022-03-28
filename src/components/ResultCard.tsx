@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useData } from 'src/hooks/useData';
 import { getLocalStorageArray } from 'src/utils/utils';
 import styled from 'styled-components';
+import Error from './Error';
 
 interface ResultCardProps {
   id: string;
@@ -12,6 +13,10 @@ const ResultCard = ({ id }: ResultCardProps) => {
   const pathname = `/lookup.php?i=${id}`;
   const { data, error } = useData(`${pathname}`, '');
   const cocktailData = data?.drinks[0];
+
+  if (error) {
+    return <Error />;
+  }
 
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -51,8 +56,11 @@ const ResultCard = ({ id }: ResultCardProps) => {
 
   return (
     <ItemContainer>
-      <ItemTitle>{cocktailData?.strDrink}</ItemTitle>
-      <button onClick={handleFavorites}>{isFavorite ? '❤️' : '🤍'}</button>
+      <ItemTitle>
+        {cocktailData?.strDrink}
+        <button onClick={handleFavorites}>{isFavorite ? '❤️' : '🤍'}</button>
+      </ItemTitle>
+
       <Link href={`/detail?${data?.drinks[0].idDrink}`}>
         <ItemDetail image={cocktailData?.strDrinkThumb}>
           <ItemIngredient>{cocktailData?.strIngredient1}</ItemIngredient>
@@ -78,6 +86,13 @@ const ItemTitle = styled.h4`
   font-weight: 600;
   font-size: 1.2rem;
   margin: 0;
+
+  button {
+    margin-left: 10px;
+    border: none;
+    border-radius: 10%;
+    background: #dbdbdb;
+  }
 `;
 
 const ItemDetail = styled.div<{ image: string }>`

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useData } from 'src/hooks/useData';
 import { getLocalStorageArray } from 'src/utils/utils';
 import styled from 'styled-components';
+import Error from './Error';
 
 interface FavoritesCardProps {
   id: string;
@@ -11,6 +12,11 @@ interface FavoritesCardProps {
 const FavoritesCard = ({ id }: FavoritesCardProps) => {
   const pathname = `/lookup.php?i=${id}`;
   const { data, error } = useData(`${pathname}`, '');
+
+  if (error) {
+    return <Error />;
+  }
+
   const cocktailData = data?.drinks[0];
 
   const [isFavorite, setIsFavorite] = useState(true);
@@ -34,8 +40,10 @@ const FavoritesCard = ({ id }: FavoritesCardProps) => {
 
   return (
     <Container>
-      <button onClick={handleFavorites}>{isFavorite ? '❤️' : '🤍'}</button>
-      <div>{cocktailData?.strDrink}</div>
+      <div>
+        {cocktailData?.strDrink}
+        <button onClick={handleFavorites}>{isFavorite ? '❤️' : '🤍'}</button>
+      </div>
       <Link href={`/detail?${id}`}>
         <ItemImage image={cocktailData?.strDrinkThumb}></ItemImage>
       </Link>
@@ -48,6 +56,9 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  button {
+    margin-left: 10px;
+  }
 `;
 
 const ItemImage = styled.div<{ image: string }>`

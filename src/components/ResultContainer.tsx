@@ -1,9 +1,10 @@
 import useSWR from 'swr';
 import { arrayFetcher } from 'src/utils/fetcher';
 import { Cocktail } from 'src/types/Cocktail';
-import styled from 'styled-components';
 import InfiniteScrollContainer from './InfiniteScrollContainer';
 import { ResponsiveGrid } from 'src/styles/ResponsiveGrid';
+import Loading from './Loading';
+import Error from './Error';
 
 interface ResultContainerProps {
   urlArray: string[];
@@ -11,6 +12,15 @@ interface ResultContainerProps {
 
 const ResultContainer = ({ urlArray }: ResultContainerProps) => {
   const { data, error } = useSWR([urlArray], arrayFetcher);
+
+  if (!data) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <Error />;
+  }
+
   const result: Cocktail[][] = [];
 
   const realResult = new Map<string, number>();

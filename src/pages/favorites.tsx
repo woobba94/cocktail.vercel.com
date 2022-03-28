@@ -15,17 +15,38 @@ const Favorites: NextPage = () => {
   }, []);
 
   return (
-    <div>
-      <button type="button" onClick={() => router.back()}>
-        Go Back
-      </button>
-      <ResponsiveGrid>
-        {favoritesList.map((item) => {
-          return <FavoritesCard key={item} id={item} />;
-        })}
-      </ResponsiveGrid>
-    </div>
+    <>
+      <FavoritesContainer>
+        <button
+          className="btn-goback"
+          type="button"
+          onClick={() => router.back()}
+        >
+          Go Back
+        </button>
+        <ResponsiveGrid>
+          {favoritesList.map((item) => {
+            return <FavoritesCard key={item} id={item} />;
+          })}
+        </ResponsiveGrid>
+      </FavoritesContainer>
+    </>
   );
 };
+
+const FavoritesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  .btn-goback {
+    position: absolute;
+    width: 80px;
+    top: 10px;
+    left: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10%;
+    background: #dbdbdb;
+  }
+`;
 
 export default Favorites;
