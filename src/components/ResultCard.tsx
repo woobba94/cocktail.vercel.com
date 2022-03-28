@@ -1,6 +1,7 @@
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { useData } from 'src/hooks/useData';
-import { Cocktail } from 'src/types/Cocktail';
+import { getLocalStorageArray } from 'src/utils/utils';
 import styled from 'styled-components';
 
 interface ResultCardProps {
@@ -12,6 +13,18 @@ const ResultCard = ({ id }: ResultCardProps) => {
   const { data, error } = useData(`${pathname}`, '');
   const cocktailData = data?.drinks[0];
 
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    const newFavorites = getLocalStorageArray('favoritesHistory');
+
+    if (newFavorites.includes(id)) {
+      setIsFavorite(true);
+    } else {
+      setIsFavorite(false);
+    }
+  }, []);
+
   if (data) {
     window.scrollTo(
       0,
@@ -19,10 +32,28 @@ const ResultCard = ({ id }: ResultCardProps) => {
     );
   }
 
+  const handleFavorites = () => {
+    const newFavorites = getLocalStorageArray('favoritesHistory');
+
+    if (newFavorites.includes(id)) {
+      setIsFavorite(false);
+      newFavorites.filter((element) => element !== id);
+      localStorage.setItem(
+        'favoritesHistory',
+        JSON.stringify(newFavorites.filter((element) => element !== id)),
+      );
+    } else {
+      setIsFavorite(true);
+      newFavorites.push(id);
+      localStorage.setItem('favoritesHistory', JSON.stringify(newFavorites));
+    }
+  };
+
   return (
-    <Link href={`/detail?${data?.drinks[0].idDrink}`}>
-      <ItemContainer>
-        <ItemTitle>{cocktailData?.strDrink}</ItemTitle>
+    <ItemContainer>
+      <ItemTitle>{cocktailData?.strDrink}</ItemTitle>
+      <button onClick={handleFavorites}>{isFavorite ? '❤️' : '🤍'}</button>
+      <Link href={`/detail?${data?.drinks[0].idDrink}`}>
         <ItemDetail image={cocktailData?.strDrinkThumb}>
           <ItemIngredient>{cocktailData?.strIngredient1}</ItemIngredient>
           <ItemIngredient>{cocktailData?.strIngredient2}</ItemIngredient>
@@ -30,8 +61,8 @@ const ResultCard = ({ id }: ResultCardProps) => {
           <ItemIngredient>{cocktailData?.strIngredient4}</ItemIngredient>
           <ItemIngredient>{cocktailData?.strIngredient5}</ItemIngredient>
         </ItemDetail>
-      </ItemContainer>
-    </Link>
+      </Link>
+    </ItemContainer>
   );
 };
 

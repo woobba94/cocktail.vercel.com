@@ -8,3 +8,12 @@ export const getNewArray = (baseArray: string[], value: string) => {
   newArr.push(value);
   return newArr;
 };
+
+export const getLocalStorageArray = (key: string) => {
+  const object = JSON.parse(localStorage.getItem(key) || '[]');
+  const newArr: string[] = [];
+  for (const item of object) {
+    newArr.push(item);
+  }
+  return newArr;
+};
