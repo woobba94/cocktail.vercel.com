@@ -40,8 +40,8 @@ const TagList = ({ selectedList, setSelectedList }: Props) => {
 const Container = styled.div`
   position: relative;
   overflow: hidden;
-  margin-top: 10px;
   height: 30px;
+  margin: 0 10px;
 `;
 
 const Tag = styled.div`
@@ -51,8 +51,11 @@ const Tag = styled.div`
   overflow-x: scroll;
   white-space: nowrap;
   button {
+    border-radius: 5px;
     height: 30px;
     margin: 0 0.1rem;
+    background-color: #ddd;
+    border: 2px solid #bbb;
   }
 `;
 

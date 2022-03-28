@@ -4,6 +4,7 @@ import AutoComplete from './AutoComplete';
 import { useData } from 'src/hooks/useData';
 import Category from './Category';
 import { getNewArray, resetStorage } from 'src/utils/utils';
+import TagList from './TagList';
 
 interface SearchContainerProps {
   selectedList: string[];
@@ -64,6 +65,7 @@ const SearchContainer = ({
       );
       return;
     } else {
+      setIsNewInput(true);
       setIsArrowPressed(false);
     }
     if (e.key === 'Enter') {
@@ -94,6 +96,7 @@ const SearchContainer = ({
         onKeyUp={handleKeyUp}
       />
       <button onClick={handleReset}>X</button>
+      <TagList selectedList={selectedList} setSelectedList={setSelectedList} />
       {ingredients.current.length > 0 ? (
         <AutoComplete
           inputValue={inputValue}
@@ -121,9 +124,21 @@ const Container = styled.div`
   background-color: whitesmoke;
 `;
 const Input = styled.input`
+  margin: 10px;
   width: 100%;
-  max-width: 400px;
+  max-width: 300px;
   height: 50px;
+  border-radius: 10px;
+  border: 1px solid #bbb;
+  padding: 5px 18px;
+  font-size: 20px;
+  ::placeholder {
+    font-size: 18px;
+  }
+  :focus {
+    outline: none;
+    border: 1px solid pink;
+  }
 `;
 
 export default SearchContainer;

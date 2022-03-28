@@ -56,7 +56,7 @@ const AutoComplete = ({
       !inputValue && setSearchedIngredients([]);
       return;
     }
-    const newArr: string[] = [];
+    let newArr: string[] = [];
 
     ingredients.sort();
     ingredients.forEach((ingredient: string) => {
@@ -78,6 +78,11 @@ const AutoComplete = ({
       newArr.push(ingredient);
     });
 
+    // 최대 개수 조절
+    if (newArr.length > 10) {
+      newArr = newArr.slice(0, 10);
+    }
+
     setSearchedIngredients(newArr);
   }, [inputValue]);
 
@@ -96,18 +101,22 @@ const AutoComplete = ({
   };
 
   return (
-    <Container>
-      {searchedIngredients.map((ingredient: string, index: number) => {
-        return (
-          <Button
-            key={ingredient}
-            color={currentFocus === index ? 'pink' : 'skyblue'}
-            dangerouslySetInnerHTML={{ __html: ingredient }}
-            onClick={handleOnAdd}
-          ></Button>
-        );
-      })}
-    </Container>
+    <>
+      {searchedIngredients.length ? (
+        <Container>
+          {searchedIngredients.map((ingredient: string, index: number) => {
+            return (
+              <Button
+                key={ingredient}
+                color={currentFocus === index ? 'pink' : '#fff'}
+                dangerouslySetInnerHTML={{ __html: ingredient }}
+                onClick={handleOnAdd}
+              ></Button>
+            );
+          })}
+        </Container>
+      ) : null}
+    </>
   );
 };
 
@@ -116,14 +125,33 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   position: absolute;
+  background-color: #fff;
+  border: 1px solid #bbbbbb;
+  border-radius: 10px;
+  top: 100px;
+  z-index: 1;
+  padding: 8px;
   width: 100%;
-  max-width: 400px;
-  background-color: royalblue;
-  top: 50px;
+  max-width: 300px;
+  margin: 15px 10px 10px 10px;
 `;
 
 const Button = styled.button`
+  width: 100%;
+  margin: 2px 0;
   background-color: ${(props) => props.color};
+  border: none;
+  font-size: 24px;
+  padding: 5px 10px;
+  text-align: start;
+  border-radius: 8px;
+  cursor: pointer;
+  :hover {
+    background-color: pink;
+  }
+  b {
+    color: #d86679;
+  }
 `;
 
 export default AutoComplete;
