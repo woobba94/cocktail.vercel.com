@@ -1,5 +1,7 @@
 import Link from 'next/link';
+import { useState } from 'react';
 import { useData } from 'src/hooks/useData';
+import { getLocalStorageArray } from 'src/utils/utils';
 import styled from 'styled-components';
 
 interface FavoritesCardProps {
@@ -10,8 +12,29 @@ const FavoritesCard = ({ id }: FavoritesCardProps) => {
   const pathname = `/lookup.php?i=${id}`;
   const { data, error } = useData(`${pathname}`, '');
   const cocktailData = data?.drinks[0];
+
+  const [isFavorite, setIsFavorite] = useState(true);
+
+  const handleFavorites = () => {
+    const newFavorites = getLocalStorageArray('favoritesHistory');
+
+    if (newFavorites.includes(id)) {
+      setIsFavorite(false);
+      newFavorites.filter((element) => element !== id);
+      localStorage.setItem(
+        'favoritesHistory',
+        JSON.stringify(newFavorites.filter((element) => element !== id)),
+      );
+    } else {
+      setIsFavorite(true);
+      newFavorites.push(id);
+      localStorage.setItem('favoritesHistory', JSON.stringify(newFavorites));
+    }
+  };
+
   return (
     <Container>
+      <button onClick={handleFavorites}>{isFavorite ? '❤️' : '🤍'}</button>
       <div>{cocktailData?.strDrink}</div>
       <Link href={`/detail?${id}`}>
         <ItemImage image={cocktailData?.strDrinkThumb}></ItemImage>
