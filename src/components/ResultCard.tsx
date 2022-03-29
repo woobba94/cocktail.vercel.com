@@ -66,6 +66,7 @@ const ResultCard = ({ id, selectedList }: ResultCardProps) => {
     for (let i = 1; i <= 15; i++) {
       key = 'strIngredient' + i.toString();
       if (!cocktailData[key]) break;
+
       const temp: string =
         cocktailData[key][0].toUpperCase() +
         cocktailData[key].slice(1).toLowerCase();
