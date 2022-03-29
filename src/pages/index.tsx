@@ -3,7 +3,6 @@ import ResultContainer from 'src/components/ResultContainer';
 import { useEffect, useState } from 'react';
 import { API_ENDPOINT } from 'src/constants';
 import SearchContainer from 'src/components/SearchContainer';
-import Header from 'src/components/Header';
 import styled from 'styled-components';
 
 const Home: NextPage = () => {
@@ -44,7 +43,7 @@ const Home: NextPage = () => {
   return (
     <>
       <TopContainer>
-        <Header />
+        {/* <Header /> */}
         <SearchContainer
           selectedList={selectedList}
           setSelectedList={setSelectedList}
@@ -61,7 +60,7 @@ const Home: NextPage = () => {
 
 const TopContainer = styled.div`
   position: fixed;
-  top: 0;
+  top: 50px;
   z-index: 2;
 `;
 const BottomContainer = styled.div`

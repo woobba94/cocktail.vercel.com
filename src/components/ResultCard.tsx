@@ -93,7 +93,11 @@ const ResultCard = ({ id, selectedList }: ResultCardProps) => {
       </ItemTitle>
 
       <Link href={`/detail?${data?.drinks[0].idDrink}`}>
-        <ItemDetail image={cocktailData?.strDrinkThumb}>
+        <>
+          <CocktailImage
+            src={cocktailData?.strDrinkThumb}
+            alt="칵테일 이미지"
+          />
           {ingredientList?.map((val: string) => {
             return (
               <ItemIngredient
@@ -102,7 +106,7 @@ const ResultCard = ({ id, selectedList }: ResultCardProps) => {
               ></ItemIngredient>
             );
           })}
-        </ItemDetail>
+        </>
       </Link>
     </ItemContainer>
   );
@@ -129,23 +133,15 @@ const ItemTitle = styled.h4`
   }
 `;
 
-const ItemDetail = styled.div<{ image: string }>`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 95%;
-  max-width: 300px;
-  min-width: 250px;
+const CocktailImage = styled.img`
+  width: 300px;
   height: 300px;
+  background-color: #c8c8c8;
   margin-top: 20px;
-  background-image: url(${(props) => props.image});
-  background-size: cover;
-  background-repeat: no-repeat;
   transition: all 0.3s;
   border-radius: 20px;
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.02);
     cursor: pointer;
   }
 `;
