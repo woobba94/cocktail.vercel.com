@@ -32,10 +32,12 @@ const Category = ({
 
   const handleOnClick = (e: React.TouchEvent | React.MouseEvent) => {
     if ((e.target as HTMLLIElement).tagName === 'LI') {
-      const value = (e.target as HTMLElement).textContent;
-      if (value)
+      let value = (e.target as HTMLElement).textContent;
+      if (value) {
+        value = value[0].toUpperCase() + value.slice(1).toLowerCase();
         !Object.values(selectedList).includes(value) &&
           setSelectedList(getNewArray(Object.values(selectedList), value));
+      }
     }
   };
 

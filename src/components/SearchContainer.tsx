@@ -47,12 +47,13 @@ const SearchContainer = ({
   const handleOnAdd = (
     e: React.TouchEvent | React.MouseEvent | React.KeyboardEvent,
   ) => {
-    const value =
+    let value =
       e.currentTarget.textContent === ''
         ? currentItem
         : e.currentTarget.textContent;
 
     if (value && selectedList.includes(value) == false) {
+      value = value[0].toUpperCase() + value.slice(1).toLowerCase();
       setSelectedList(getNewArray(selectedList, value));
       setInputValue('');
     }
