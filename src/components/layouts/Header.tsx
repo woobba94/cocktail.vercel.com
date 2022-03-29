@@ -16,8 +16,12 @@ const Header = () => {
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: tomato;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  background-color: pink;
   height: 50px;
+  z-index: 2;
 `;
 
 export default Header;
