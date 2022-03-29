@@ -26,10 +26,6 @@ const SearchContainer = ({
 
   const { data, error } = useData('list.php?i=list', '');
 
-  if (!data) {
-    return <Loading />;
-  }
-
   if (error) {
     return <Error />;
   }

@@ -25,7 +25,7 @@ const TagList = ({ selectedList, setSelectedList }: Props) => {
   return (
     <Container>
       <Tag>
-        {selectedList.map((tag: string) => {
+        {Object.values(selectedList).map((tag: string) => {
           return (
             <button key={tag} onClick={handleOnRemove} value={tag}>
               {tag} [x]
