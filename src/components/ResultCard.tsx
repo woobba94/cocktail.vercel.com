@@ -93,21 +93,16 @@ const ResultCard = ({ id, selectedList }: ResultCardProps) => {
       </ItemTitle>
 
       <Link href={`/detail?${data?.drinks[0].idDrink}`}>
-        <>
-          <CocktailImage
-            src={cocktailData?.strDrinkThumb}
-            alt="칵테일 이미지"
-          />
-          {ingredientList?.map((val: string) => {
-            return (
-              <ItemIngredient
-                key={`ingredient${val}`}
-                dangerouslySetInnerHTML={{ __html: val }}
-              ></ItemIngredient>
-            );
-          })}
-        </>
+        <CocktailImage src={cocktailData?.strDrinkThumb} alt="칵테일 이미지" />
       </Link>
+      {ingredientList?.map((val: string) => {
+        return (
+          <ItemIngredient
+            key={`ingredient${val}`}
+            dangerouslySetInnerHTML={{ __html: val }}
+          ></ItemIngredient>
+        );
+      })}
     </ItemContainer>
   );
 };
