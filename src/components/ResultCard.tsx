@@ -7,13 +7,14 @@ import Error from './Error';
 
 interface ResultCardProps {
   id: string;
+  selectedList: string[];
 }
 
-const ResultCard = ({ id }: ResultCardProps) => {
+const ResultCard = ({ id, selectedList }: ResultCardProps) => {
   const pathname = `/lookup.php?i=${id}`;
   const { data, error } = useData(`${pathname}`, '');
   const cocktailData = data?.drinks[0];
-
+  const ingredientList: string[] = [];
   if (error) {
     return <Error />;
   }
@@ -54,6 +55,20 @@ const ResultCard = ({ id }: ResultCardProps) => {
     }
   };
 
+  if (cocktailData) {
+    let key = '';
+    for (let i = 1; i <= 15; i++) {
+      key = 'strIngredient' + i.toString();
+      const temp = cocktailData[key];
+      let result = '';
+      if (!temp) break;
+      if (selectedList.includes(temp)) {
+        result = `<b>${temp}</b>`;
+      } else result = temp;
+      ingredientList.push(result);
+    }
+  }
+
   return (
     <ItemContainer>
       <ItemTitle>
@@ -63,11 +78,14 @@ const ResultCard = ({ id }: ResultCardProps) => {
 
       <Link href={`/detail?${data?.drinks[0].idDrink}`}>
         <ItemDetail image={cocktailData?.strDrinkThumb}>
-          <ItemIngredient>{cocktailData?.strIngredient1}</ItemIngredient>
-          <ItemIngredient>{cocktailData?.strIngredient2}</ItemIngredient>
-          <ItemIngredient>{cocktailData?.strIngredient3}</ItemIngredient>
-          <ItemIngredient>{cocktailData?.strIngredient4}</ItemIngredient>
-          <ItemIngredient>{cocktailData?.strIngredient5}</ItemIngredient>
+          {ingredientList?.map((val: string) => {
+            return (
+              <ItemIngredient
+                key={`ingredient${val}`}
+                dangerouslySetInnerHTML={{ __html: val }}
+              ></ItemIngredient>
+            );
+          })}
         </ItemDetail>
       </Link>
     </ItemContainer>
@@ -121,6 +139,9 @@ const ItemIngredient = styled.div`
   margin: 1px;
   font-size: 1.1rem;
   font-weight: 500;
+  b {
+    color: #b9001f;
+  }
 `;
 
 export default ResultCard;

@@ -8,9 +8,10 @@ import Error from './Error';
 
 interface ResultContainerProps {
   urlArray: string[];
+  selectedList: string[];
 }
 
-const ResultContainer = ({ urlArray }: ResultContainerProps) => {
+const ResultContainer = ({ urlArray, selectedList }: ResultContainerProps) => {
   const { data, error } = useSWR([urlArray], arrayFetcher);
 
   if (!data) {
@@ -51,7 +52,12 @@ const ResultContainer = ({ urlArray }: ResultContainerProps) => {
   }
   return (
     <ResponsiveGrid>
-      {mapToArray ? <InfiniteScrollContainer initialData={mapToArray} /> : null}
+      {mapToArray ? (
+        <InfiniteScrollContainer
+          initialData={mapToArray}
+          selectedList={selectedList}
+        />
+      ) : null}
     </ResponsiveGrid>
   );
 };

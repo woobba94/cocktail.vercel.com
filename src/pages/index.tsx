@@ -51,7 +51,9 @@ const Home: NextPage = () => {
         />
       </TopContainer>
       <BottomContainer>
-        {urlArray ? <ResultContainer urlArray={urlArray} /> : null}
+        {urlArray ? (
+          <ResultContainer urlArray={urlArray} selectedList={selectedList} />
+        ) : null}
       </BottomContainer>
     </>
   );
