@@ -14,7 +14,8 @@ const ResultCard = ({ id, selectedList }: ResultCardProps) => {
   const pathname = `/lookup.php?i=${id}`;
   const { data, error } = useData(`${pathname}`, '');
   const cocktailData = data?.drinks[0];
-  const ingredientList: string[] = [];
+  const INGREDIENT_SIZE = 5;
+  let ingredientList: string[] = [];
   if (error) {
     return <Error />;
   }
@@ -55,18 +56,32 @@ const ResultCard = ({ id, selectedList }: ResultCardProps) => {
     }
   };
 
+  const isOverlab = (arr: string[], str: string) => {
+    if (arr.includes(str)) return true;
+    return false;
+  };
+
   if (cocktailData) {
     let key = '';
     for (let i = 1; i <= 15; i++) {
       key = 'strIngredient' + i.toString();
-      const temp = cocktailData[key];
-      let result = '';
-      if (!temp) break;
+      if (!cocktailData[key]) break;
+      const temp: string =
+        cocktailData[key][0].toUpperCase() +
+        cocktailData[key].slice(1).toLowerCase();
+
       if (selectedList.includes(temp)) {
-        result = `<b>${temp}</b>`;
-      } else result = temp;
-      ingredientList.push(result);
+        const result = `<b>${temp}</b>`;
+        if (!isOverlab(ingredientList, result)) {
+          ingredientList.unshift(result);
+        }
+      } else {
+        if (!isOverlab(ingredientList, temp)) {
+          ingredientList.push(temp);
+        }
+      }
     }
+    ingredientList = ingredientList.splice(0, INGREDIENT_SIZE);
   }
 
   return (
