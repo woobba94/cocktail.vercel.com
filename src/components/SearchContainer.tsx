@@ -5,7 +5,6 @@ import { useData } from 'src/hooks/useData';
 import Category from './Category';
 import { getNewArray, resetStorage } from 'src/utils/utils';
 import TagList from './TagList';
-import Loading from './Loading';
 import Error from 'src/components/Error';
 
 interface SearchContainerProps {
@@ -41,11 +40,13 @@ const SearchContainer = ({
 
   data && ingredients.current.length === 0 && initIngredients();
 
-  const handleInput = (e: any) => {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
-  const handleOnAdd = (e: any) => {
+  const handleOnAdd = (
+    e: React.TouchEvent | React.MouseEvent | React.KeyboardEvent,
+  ) => {
     const value =
       e.currentTarget.textContent === ''
         ? currentItem
@@ -58,7 +59,7 @@ const SearchContainer = ({
     resetStorage();
   };
 
-  const handleKeyUp = (e: any) => {
+  const handleKeyUp = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       setIsArrowPressed(true);
       setIsNewInput(false);

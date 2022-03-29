@@ -30,10 +30,10 @@ const Category = ({
     }
   });
 
-  const handleOnClick = (e: any) => {
-    if (e.target.tagName === 'LI') {
-      const value = e.target.textContent;
-      if (selectedList)
+  const handleOnClick = (e: React.TouchEvent | React.MouseEvent) => {
+    if ((e.target as HTMLLIElement).tagName === 'LI') {
+      const value = (e.target as HTMLElement).textContent;
+      if (value)
         !Object.values(selectedList).includes(value) &&
           setSelectedList(getNewArray(Object.values(selectedList), value));
     }

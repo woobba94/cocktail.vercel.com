@@ -7,11 +7,11 @@ interface Props {
 }
 
 const TagList = ({ selectedList, setSelectedList }: Props) => {
-  const handleOnRemove = (e: any) => {
+  const handleOnRemove = (e: React.MouseEvent) => {
     let targetIndex = 0;
     const tempArr = [...selectedList];
     for (let i = 0; i < tempArr.length; i++) {
-      if (tempArr[i] === e.target.value) {
+      if (tempArr[i] === (e.target as HTMLButtonElement).value) {
         targetIndex = i;
         break;
       }

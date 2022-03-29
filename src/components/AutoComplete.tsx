@@ -3,7 +3,9 @@ import styled from 'styled-components';
 interface AutoCompleteProps {
   inputValue: string;
   ingredients: string[];
-  handleOnAdd: (value: any) => void;
+  handleOnAdd: (
+    e: React.TouchEvent | React.MouseEvent | React.KeyboardEvent,
+  ) => void;
   currentFocus: number;
   setCurrentFocus: (value: number) => void;
   setInputValue: (value: string) => void;
