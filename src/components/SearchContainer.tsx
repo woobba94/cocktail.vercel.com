@@ -5,6 +5,8 @@ import { useData } from 'src/hooks/useData';
 import Category from './Category';
 import { getNewArray, resetStorage } from 'src/utils/utils';
 import TagList from './TagList';
+import Loading from './Loading';
+import Error from 'src/components/Error';
 
 interface SearchContainerProps {
   selectedList: string[];
@@ -18,11 +20,15 @@ const SearchContainer = ({
   const [inputValue, setInputValue] = useState<string>('');
   const [currentItem, setCurrentItem] = useState<string>('');
   const [currentFocus, setCurrentFocus] = useState<number>(0);
-  const [isNewInput, setIsNewInput] = useState<boolean>(false);
+  const [isNewInput, setIsNewInput] = useState<boolean>(true);
   const [isArrowPressed, setIsArrowPressed] = useState<boolean>(false);
   const ingredients = useRef<string[]>([]);
 
   const { data, error } = useData('list.php?i=list', '');
+
+  if (error) {
+    return <Error />;
+  }
 
   const initIngredients = () => {
     Object.values<{ strIngredient1: string }>(data.drinks).forEach(
@@ -32,10 +38,6 @@ const SearchContainer = ({
     );
     ingredients.current.sort();
   };
-
-  if (error) {
-    console.log('api error');
-  }
 
   data && ingredients.current.length === 0 && initIngredients();
 

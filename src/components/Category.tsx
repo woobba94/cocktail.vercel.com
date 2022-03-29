@@ -33,8 +33,9 @@ const Category = ({
   const handleOnClick = (e: any) => {
     if (e.target.tagName === 'LI') {
       const value = e.target.textContent;
-      !selectedList.includes(value) &&
-        setSelectedList(getNewArray(selectedList, value));
+      if (selectedList)
+        !Object.values(selectedList).includes(value) &&
+          setSelectedList(getNewArray(Object.values(selectedList), value));
     }
   };
 

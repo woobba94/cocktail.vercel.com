@@ -2,7 +2,6 @@ import type { NextPage } from 'next';
 import ResultContainer from 'src/components/ResultContainer';
 import { useEffect, useState } from 'react';
 import { API_ENDPOINT } from 'src/constants';
-import { resetStorage } from 'src/utils/utils';
 import SearchContainer from 'src/components/SearchContainer';
 import Header from 'src/components/Header';
 import styled from 'styled-components';

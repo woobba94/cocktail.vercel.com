@@ -1,5 +1,7 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import Error from 'src/components/Error';
+import Loading from 'src/components/Loading';
 import { useData } from 'src/hooks/useData';
 import styled from 'styled-components';
 
@@ -8,6 +10,16 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  .btn-goback {
+    position: absolute;
+    width: 80px;
+    top: 10px;
+    left: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10%;
+    background: #dbdbdb;
+  }
 `;
 const Title = styled.div`
   margin: 50px 0;
@@ -47,6 +59,14 @@ const Detail: NextPage = () => {
   const cocktailData = data?.drinks[0];
   const ingredientList: string[] = [];
 
+  if (!data) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <Error />;
+  }
+
   if (cocktailData) {
     let key = '';
     let Volume = '';
@@ -59,11 +79,14 @@ const Detail: NextPage = () => {
       ingredientList.push(`${cocktailData[key]} ${k}`);
     }
   }
-  console.log(cocktailData);
 
   return (
     <Container>
-      <button type="button" onClick={() => router.back()}>
+      <button
+        className="btn-goback"
+        type="button"
+        onClick={() => router.back()}
+      >
         Go Back
       </button>
       <Title>{cocktailData?.strDrink}</Title>
