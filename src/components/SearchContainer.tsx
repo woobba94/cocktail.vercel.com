@@ -52,9 +52,9 @@ const SearchContainer = ({
         ? currentItem
         : e.currentTarget.textContent;
 
-    if (value && selectedList.includes(value) == false) {
+    if (value && Object.values(selectedList).includes(value) == false) {
       value = value[0].toUpperCase() + value.slice(1).toLowerCase();
-      setSelectedList(getNewArray(selectedList, value));
+      setSelectedList(getNewArray(Object.values(selectedList), value));
       setInputValue('');
     }
     resetStorage();
